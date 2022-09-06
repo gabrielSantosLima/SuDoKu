@@ -47,7 +47,6 @@ describe('Generate Sudoku Result', () => {
 
   it('Should generate a valid sudoku game', () => {
     const result = new GenerateResult().execute()
-
     expect(new CheckResult().execute(result)).toBeTruthy()
   })
 })

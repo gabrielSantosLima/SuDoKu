@@ -116,7 +116,12 @@ export class GenerateResult implements IUseCase<void, Board> {
             lastRow = row - 1
             lastColumn = 8
           }
+          if (lastRow < 0 || lastColumn < 0) {
+            return unitedBoard
+          }
+          this.removeTry(currentNumber - 1, unitedBoard[lastRow][lastColumn])
           this.resetTry(currentNumber)
+          unitedBoard[row][column] = 0
           return this.sortNumbers(
             currentNumber - 1,
             lastRow,
@@ -126,11 +131,10 @@ export class GenerateResult implements IUseCase<void, Board> {
         } else {
           const newNumber = randomFromList(allowedNumbers)
           unitedBoard[row][column] = newNumber
-          this.removeTry(currentNumber, newNumber)
         }
         currentNumber++
       }
-      defaultRow = 0
+      defaultColumn = 0
     }
     return unitedBoard
   }
@@ -138,9 +142,7 @@ export class GenerateResult implements IUseCase<void, Board> {
   execute(): Board {
     this.resetTries()
     let unitedBoard = this.sortNumbers(0, 0, 0)
-    console.log('United Board: \n' + unitedBoard.join('\n'))
     const board: Board = unitedBoardToBoard(unitedBoard)
-    console.log('Board: \n' + board.join('\n'))
     return board
   }
 }

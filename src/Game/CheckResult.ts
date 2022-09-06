@@ -7,7 +7,7 @@ export class CheckResult implements IUseCase<Board, Boolean> {
   private containsRepeatedNumbers(numbers: Array<number>): Boolean {
     for (let firstIndex = 0; firstIndex < numbers.length; firstIndex++) {
       for (let secondIndex = 0; secondIndex < numbers.length; secondIndex++) {
-        if (numbers[firstIndex] === undefined || numbers[secondIndex]) {
+        if (!numbers[firstIndex] || !numbers[secondIndex]) {
           return true
         }
         if (
