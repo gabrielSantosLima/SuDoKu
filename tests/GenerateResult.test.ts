@@ -4,16 +4,14 @@ import {CompareResult} from '../src/Game/CompareResult'
 import {GenerateResult} from '../src/Game/GenerateResult'
 
 describe('Generate Sudoku Result', () => {
-  it('Should be have 9 squares', () => {
-    const generateResult = new GenerateResult()
-    const result = generateResult.execute()
+  it('Should have 9 squares', () => {
+    const result = new GenerateResult().execute()
     let sizeOfSquares = result.length
     expect(sizeOfSquares).toBe(9)
   })
 
-  it('Should be have 81 numbers', () => {
-    const generateResult = new GenerateResult()
-    const result = generateResult.execute()
+  it('Should have 81 numbers', () => {
+    const result = new GenerateResult().execute()
     let sizeOfNumbers = 0
     for (const square of result) {
       for (const row of square) {
@@ -23,9 +21,8 @@ describe('Generate Sudoku Result', () => {
     expect(sizeOfNumbers).toBe(81)
   })
 
-  it('Should be have 9 numbers within square', () => {
-    const generateResult = new GenerateResult()
-    const result = generateResult.execute()
+  it('Should have 9 numbers within square', () => {
+    const result = new GenerateResult().execute()
     let hasNineNumbersWithinEachSquare = true
     for (const square of result) {
       let sizeOfNumbers = 0
@@ -39,24 +36,18 @@ describe('Generate Sudoku Result', () => {
     expect(hasNineNumbersWithinEachSquare).toBeTruthy()
   })
 
-  it('Should be generate random results', () => {
-    const generateResult = new GenerateResult()
-    const compareResult = new CompareResult()
-
-    const result1 = generateResult.execute()
-    const result2 = generateResult.execute()
+  it('Should generate random results', () => {
+    const result1 = new GenerateResult().execute()
+    const result2 = new GenerateResult().execute()
 
     expect(
-      compareResult.execute({board1: result1, board2: result2})
+      new CompareResult().execute({board1: result1, board2: result2})
     ).toBeFalsy()
   })
 
-  it('Should be generate a valid sudoku game', () => {
-    const generateResult = new GenerateResult()
-    const checkResult = new CheckResult()
+  it('Should generate a valid sudoku game', () => {
+    const result = new GenerateResult().execute()
 
-    const result = generateResult.execute()
-
-    expect(checkResult.execute(result)).toBeTruthy()
+    expect(new CheckResult().execute(result)).toBeTruthy()
   })
 })

@@ -1,4 +1,4 @@
 import './global-style.css'
-import {Sdk} from './sdk'
+import {Sdk} from './sudoku'
 const game = new Sdk()
 game.init()

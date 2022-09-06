@@ -1,12 +1,15 @@
 import {Board} from '../Entities/Board'
 import {Square} from '../Entities/Square'
-import {UnitedBoard} from '../Entities/UnitedBoard'
+import {boardToUnitedBoard, UnitedBoard} from '../Entities/UnitedBoard'
 import {IUseCase} from './IUseCase'
 
 export class CheckResult implements IUseCase<Board, Boolean> {
   private containsRepeatedNumbers(numbers: Array<number>): Boolean {
     for (let firstIndex = 0; firstIndex < numbers.length; firstIndex++) {
       for (let secondIndex = 0; secondIndex < numbers.length; secondIndex++) {
+        if (numbers[firstIndex] === undefined || numbers[secondIndex]) {
+          return true
+        }
         if (
           secondIndex !== firstIndex &&
           numbers[firstIndex] === numbers[secondIndex]
@@ -46,40 +49,13 @@ export class CheckResult implements IUseCase<Board, Boolean> {
     return true
   }
 
-  private combineToUnitedBoard(board: Board): UnitedBoard {
-    let unitedBoard: UnitedBoard = []
-    for (let row = 0; row < 3; row++) {
-      unitedBoard.push([])
-      for (let column = 0; column < 3; column++) {
-        unitedBoard[unitedBoard.length - 1].push(...board[column][row])
-      }
-    }
-    for (let row = 0; row < 3; row++) {
-      unitedBoard.push([])
-      for (let column = 3; column < 6; column++) {
-        unitedBoard[unitedBoard.length - 1].push(...board[column][row])
-      }
-    }
-    for (let row = 0; row < 3; row++) {
-      unitedBoard.push([])
-      for (let column = 6; column < 9; column++) {
-        unitedBoard[unitedBoard.length - 1].push(...board[column][row])
-      }
-    }
-    return unitedBoard
-  }
-
   execute(request: Board): Boolean {
-    const unitedBoard = this.combineToUnitedBoard(request)
+    const unitedBoard = boardToUnitedBoard(request)
     const isValidBoard = this.checkBoard(unitedBoard)
-    if (!isValidBoard) {
-      return false
-    }
+    if (!isValidBoard) return false
     for (const square of request) {
       const isValidSquare = this.checkSquare(square)
-      if (!isValidSquare) {
-        return false
-      }
+      if (!isValidSquare) return false
     }
     return true
   }
