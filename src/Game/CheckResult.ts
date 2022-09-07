@@ -1,15 +1,12 @@
 import {Board} from '../Entities/Board'
 import {Square} from '../Entities/Square'
 import {boardToUnitedBoard, UnitedBoard} from '../Entities/UnitedBoard'
-import {IUseCase} from './IUseCase'
 
-export class CheckResult implements IUseCase<Board, Boolean> {
-  private containsRepeatedNumbers(numbers: Array<number>): Boolean {
+export class CheckResult {
+  private containsRepeatedNumbers(numbers: Array<number>): boolean {
     for (let firstIndex = 0; firstIndex < numbers.length; firstIndex++) {
       for (let secondIndex = 0; secondIndex < numbers.length; secondIndex++) {
-        if (!numbers[firstIndex] || !numbers[secondIndex]) {
-          return true
-        }
+        if (!numbers[firstIndex] || !numbers[secondIndex]) return true
         if (
           secondIndex !== firstIndex &&
           numbers[firstIndex] === numbers[secondIndex]
@@ -21,7 +18,7 @@ export class CheckResult implements IUseCase<Board, Boolean> {
     return false
   }
 
-  private checkSquare(square: Square): Boolean {
+  private checkSquare(square: Square): boolean {
     let unitedSquare: Array<number> = []
     for (let row of square) {
       unitedSquare = [...unitedSquare, ...row]
@@ -29,12 +26,10 @@ export class CheckResult implements IUseCase<Board, Boolean> {
     return !this.containsRepeatedNumbers(unitedSquare)
   }
 
-  private checkBoard(board: UnitedBoard): Boolean {
+  private checkBoard(board: UnitedBoard): boolean {
     for (let row of board) {
       const isValid = !this.containsRepeatedNumbers(row)
-      if (!isValid) {
-        return false
-      }
+      if (!isValid) return false
     }
     for (let columnIndex = 0; columnIndex < 9; columnIndex++) {
       const column = []
@@ -42,14 +37,12 @@ export class CheckResult implements IUseCase<Board, Boolean> {
         column.push(board[row][columnIndex])
       }
       const isValid = !this.containsRepeatedNumbers(column)
-      if (!isValid) {
-        return false
-      }
+      if (!isValid) return false
     }
     return true
   }
 
-  execute(request: Board): Boolean {
+  execute(request: Board): boolean {
     const unitedBoard = boardToUnitedBoard(request)
     const isValidBoard = this.checkBoard(unitedBoard)
     if (!isValidBoard) return false

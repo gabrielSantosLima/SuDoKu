@@ -1,17 +1,17 @@
 import {describe, expect, it} from 'vitest'
+import {generateResultFactory} from '../src/Factory/generateResultFactory'
 import {CheckResult} from '../src/Game/CheckResult'
 import {CompareResult} from '../src/Game/CompareResult'
-import {GenerateResult} from '../src/Game/GenerateResult'
 
 describe('Generate Sudoku Result', () => {
   it('Should have 9 squares', () => {
-    const result = new GenerateResult().execute()
+    const result = generateResultFactory().execute()
     let sizeOfSquares = result.length
     expect(sizeOfSquares).toBe(9)
   })
 
   it('Should have 81 numbers', () => {
-    const result = new GenerateResult().execute()
+    const result = generateResultFactory().execute()
     let sizeOfNumbers = 0
     for (const square of result) {
       for (const row of square) {
@@ -22,7 +22,7 @@ describe('Generate Sudoku Result', () => {
   })
 
   it('Should have 9 numbers within square', () => {
-    const result = new GenerateResult().execute()
+    const result = generateResultFactory().execute()
     let hasNineNumbersWithinEachSquare = true
     for (const square of result) {
       let sizeOfNumbers = 0
@@ -37,8 +37,8 @@ describe('Generate Sudoku Result', () => {
   })
 
   it('Should generate random results', () => {
-    const result1 = new GenerateResult().execute()
-    const result2 = new GenerateResult().execute()
+    const result1 = generateResultFactory().execute()
+    const result2 = generateResultFactory().execute()
 
     expect(
       new CompareResult().execute({board1: result1, board2: result2})
@@ -46,7 +46,7 @@ describe('Generate Sudoku Result', () => {
   })
 
   it('Should generate a valid sudoku game', () => {
-    const result = new GenerateResult().execute()
+    const result = generateResultFactory().execute()
     expect(new CheckResult().execute(result)).toBeTruthy()
   })
 })

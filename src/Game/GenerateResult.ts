@@ -1,33 +1,30 @@
 import {Board, unitedBoardToBoard} from '../Entities/Board'
-import {
-  getColumn,
-  getRow,
-  getSquare,
-  UnitedBoard,
-} from '../Entities/UnitedBoard'
-import {randomFromList} from '../Utils/random'
-import {getNumbersNotContainedIn, intersection} from '../Utils/sets'
-import {IUseCase} from './IUseCase'
+import {UnitedBoard} from '../Entities/UnitedBoard'
+import {randomFromList, randomSeedFromList} from '../Utils/random'
+import {intersection} from '../Utils/sets'
+import {GetAllowedNumbers} from './GetAllowedNumbers'
 
 const SUDOKU_SIZE = 9
 
-export class GenerateResult implements IUseCase<void, Board> {
+export class GenerateResult {
   private tries: Array<Array<number>>
+  private getAllowedNumbers: GetAllowedNumbers
 
-  constructor() {
+  constructor(getAllowedNumbers: GetAllowedNumbers) {
     this.tries = []
+    this.getAllowedNumbers = getAllowedNumbers
     this.resetTries()
   }
 
   private resetTries() {
     this.tries = []
     for (let row = 0; row < 81; row++) {
-      this.tries.push(this.getAllowedNumbers())
+      this.tries.push(this.getAllowedNumbers.getAllowedNumbers())
     }
   }
 
   private resetTry(currentNumber: number) {
-    this.tries[currentNumber] = this.getAllowedNumbers()
+    this.tries[currentNumber] = this.getAllowedNumbers.getAllowedNumbers()
   }
 
   private removeTry(currentNumber: number, element: number) {
@@ -36,60 +33,11 @@ export class GenerateResult implements IUseCase<void, Board> {
     )
   }
 
-  private getAllowedNumbers(): Array<number> {
-    return [1, 2, 3, 4, 5, 6, 7, 8, 9]
-  }
-
-  private getAllowedNumbersInSquare(
-    matrix: UnitedBoard,
-    x: number,
-    y: number
-  ): Array<number> {
-    let allowedNumbers = this.getAllowedNumbers()
-    const square = getSquare(matrix, x, y)
-    allowedNumbers = getNumbersNotContainedIn(allowedNumbers, square)
-    return allowedNumbers
-  }
-
-  private getAllowedNumbersInColumn(
-    matrix: UnitedBoard,
-    x: number
-  ): Array<number> {
-    let allowedNumbers = this.getAllowedNumbers()
-    const column = getColumn(matrix, x)
-    allowedNumbers = getNumbersNotContainedIn(allowedNumbers, column)
-    return allowedNumbers
-  }
-
-  private getAllowedNumbersInRow(
-    matrix: UnitedBoard,
-    y: number
-  ): Array<number> {
-    let allowedNumbers = this.getAllowedNumbers()
-    const row = getRow(matrix, y)
-    allowedNumbers = getNumbersNotContainedIn(allowedNumbers, row)
-    return allowedNumbers
-  }
-
-  private getAllowedNumbersIn(
-    matrix: UnitedBoard,
-    x: number,
-    y: number
-  ): Array<number> {
-    const allowedNumbers = intersection(
-      intersection(
-        this.getAllowedNumbersInRow(matrix, y),
-        this.getAllowedNumbersInColumn(matrix, x)
-      ),
-      this.getAllowedNumbersInSquare(matrix, x, y)
-    )
-    return allowedNumbers
-  }
-
   private sortNumbers(
     currentNumber: number,
     defaultRow: number,
     defaultColumn: number,
+    seed?: string,
     unitedBoard: UnitedBoard = [
       [0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -106,7 +54,7 @@ export class GenerateResult implements IUseCase<void, Board> {
       for (let column = defaultColumn; column < SUDOKU_SIZE; column++) {
         const allowedNumbers = intersection(
           this.tries[currentNumber],
-          this.getAllowedNumbersIn(unitedBoard, column, row)
+          this.getAllowedNumbers.execute(unitedBoard, column, row)
         )
         if (allowedNumbers.length === 0) {
           let lastRow = row
@@ -126,10 +74,16 @@ export class GenerateResult implements IUseCase<void, Board> {
             currentNumber - 1,
             lastRow,
             lastColumn,
+            seed,
             unitedBoard
           )
         } else {
-          const newNumber = randomFromList(allowedNumbers)
+          let newNumber: number
+          if (!seed || (seed && seed.length === 0)) {
+            newNumber = randomFromList(allowedNumbers)
+          } else {
+            newNumber = randomSeedFromList(seed, allowedNumbers)
+          }
           unitedBoard[row][column] = newNumber
         }
         currentNumber++
@@ -139,9 +93,9 @@ export class GenerateResult implements IUseCase<void, Board> {
     return unitedBoard
   }
 
-  execute(): Board {
+  execute(seed?: string): Board {
     this.resetTries()
-    let unitedBoard = this.sortNumbers(0, 0, 0)
+    let unitedBoard = this.sortNumbers(0, 0, 0, seed)
     const board: Board = unitedBoardToBoard(unitedBoard)
     return board
   }
