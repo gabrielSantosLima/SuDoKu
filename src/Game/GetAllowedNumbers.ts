@@ -3,8 +3,8 @@ import {
   getRow,
   getSquare,
   UnitedBoard,
-} from '../Entities/UnitedBoard'
-import {getNumbersNotContainedIn, intersection} from '../Utils/sets'
+} from '../entities/UnitedBoard'
+import {getNumbersNotContainedIn, intersection} from '../utils/sets'
 
 export class GetAllowedNumbers {
   public getAllowedNumbers(): Array<number> {

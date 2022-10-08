@@ -1,5 +1,5 @@
-import {Board} from '../Entities/Board'
-import {Square} from '../Entities/Square'
+import {Board} from '../entities/Board'
+import {Square} from '../entities/Square'
 
 interface RequestType {
   board1: Board

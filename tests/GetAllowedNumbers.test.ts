@@ -1,6 +1,6 @@
 import {describe, expect, it} from 'vitest'
-import {UnitedBoard} from '../src/Entities/UnitedBoard'
-import {GetAllowedNumbers} from '../src/Game/GetAllowedNumbers'
+import {UnitedBoard} from '../src/entities/UnitedBoard'
+import {GetAllowedNumbers} from '../src/game/GetAllowedNumbers'
 
 describe('Get Allowed Numbers', () => {
   it('Should return the correct number in position 0,0', () => {

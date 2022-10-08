@@ -1,6 +1,6 @@
-import {Board} from '../Entities/Board'
-import {Square} from '../Entities/Square'
-import {boardToUnitedBoard, UnitedBoard} from '../Entities/UnitedBoard'
+import {Board} from '../entities/Board'
+import {Square} from '../entities/Square'
+import {boardToUnitedBoard, UnitedBoard} from '../entities/UnitedBoard'
 
 export class CheckResult {
   private containsRepeatedNumbers(numbers: Array<number>): boolean {

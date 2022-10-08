@@ -1,7 +1,7 @@
 import {describe, expect, it} from 'vitest'
-import {generateResultFactory} from '../src/Factory/generateResultFactory'
-import {CheckResult} from '../src/Game/CheckResult'
-import {CompareResult} from '../src/Game/CompareResult'
+import {generateResultFactory} from '../src/factory/generateResultFactory'
+import {CheckResult} from '../src/game/CheckResult'
+import {CompareResult} from '../src/game/CompareResult'
 
 describe('Generate Sudoku Result', () => {
   it('Should have 9 squares', () => {

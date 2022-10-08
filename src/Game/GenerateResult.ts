@@ -1,7 +1,7 @@
-import {Board, unitedBoardToBoard} from '../Entities/Board'
-import {UnitedBoard} from '../Entities/UnitedBoard'
-import {randomFromList, randomSeedFromList} from '../Utils/random'
-import {intersection} from '../Utils/sets'
+import {Board, unitedBoardToBoard} from '../entities/Board'
+import {UnitedBoard} from '../entities/UnitedBoard'
+import {randomFromList, randomSeedFromList} from '../utils/random'
+import {intersection} from '../utils/sets'
 import {GetAllowedNumbers} from './GetAllowedNumbers'
 
 const SUDOKU_SIZE = 9

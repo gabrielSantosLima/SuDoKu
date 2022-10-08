@@ -1,4 +1,4 @@
-import {GenerateResultWithSeed} from '../Game/GenerateResultWithSeed'
+import {GenerateResultWithSeed} from '../game/GenerateResultWithSeed'
 import {generateResultFactory} from './generateResultFactory'
 
 export function generateResultWithSeedFactory(): GenerateResultWithSeed {

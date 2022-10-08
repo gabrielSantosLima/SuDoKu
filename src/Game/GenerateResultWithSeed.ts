@@ -1,6 +1,5 @@
-import {Board} from '../Entities/Board'
+import {Board} from '../entities/Board'
 import {GenerateResult} from './GenerateResult'
-
 export class GenerateResultWithSeed {
   private generateResult: GenerateResult
 

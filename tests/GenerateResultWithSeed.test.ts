@@ -1,7 +1,7 @@
 import {describe, expect, it} from 'vitest'
-import {generateResultWithSeedFactory} from '../src/Factory/generateResultWithSeedFactory'
-import {CheckResult} from '../src/Game/CheckResult'
-import {CompareResult} from '../src/Game/CompareResult'
+import {generateResultWithSeedFactory} from '../src/factory/generateResultWithSeedFactory'
+import {CheckResult} from '../src/game/CheckResult'
+import {CompareResult} from '../src/game/CompareResult'
 
 describe('Generate Sudoku Result With Seed', () => {
   it('Should generate the same sudoku game', () => {
