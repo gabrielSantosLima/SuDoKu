@@ -1,19 +1,20 @@
 import {Square as SquareEntity} from '../../entities/Square'
 import {Cell} from '../Cell'
-import {FunctionalComponent} from '../Component'
+import {Component} from '../Component'
 
-export class Square extends FunctionalComponent<{square: SquareEntity}> {
+export class Square extends Component<{square: SquareEntity}> {
     constructor(square: SquareEntity) {
         super({square})
     }
-    renderCells(row: number[]): string {
+
+    private renderCells(row: number[]): string {
         return row.map(cell => new Cell(cell).render()).join('')
     }
-    public addEvents(): void {}
+
     render(): string {
         return `
             <div class="square">${this.props?.square
-                .map(this.renderCells)
+                .map(cell => this.renderCells(cell))
                 .join('')}</div>
         `
     }

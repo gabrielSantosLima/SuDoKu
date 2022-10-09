@@ -1,10 +1,10 @@
-import {FunctionalComponent} from '../Component'
+import {Component} from '../Component'
 
-export class Cell extends FunctionalComponent<{value: number}> {
+export class Cell extends Component<{value: number}> {
     constructor(value: number) {
         super({value})
     }
-    public addEvents(): void {}
+
     render(): string {
         return `
             <div class="cell">${

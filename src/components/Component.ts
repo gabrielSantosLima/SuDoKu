@@ -4,11 +4,11 @@ export abstract class Component<P = any> {
     constructor(props?: P) {
         this.props = props
     }
-    public abstract render(): HTMLString
+    abstract render(): HTMLString
 }
 export abstract class FunctionalComponent<P = any> extends Component<P> {
     constructor(props?: P) {
         super(props)
     }
-    public abstract addEvents(): void
+    abstract addEvents(): void
 }
